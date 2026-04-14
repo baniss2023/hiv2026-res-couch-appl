@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Couche application et outils de diagnostic réseau</title>
+<link href="assets/style.css" rel="stylesheet"/>
+<link href="assets/print.css" media="print" rel="stylesheet"/>
+</head>
+<body class="theme-powershell" id="top">
+<a aria-label="Retour en haut" class="back-to-top" href="#top">↑</a><header class="topbar">
+<div class="topbar-inner">
+<section aria-label="Informations principales de la leçon" class="page-identity-strip page-identity-strip-topbar">
+<article class="identity-card identity-card-person">
+<div class="identity-media">
+<img alt="Anis Ghaieb" src="img/anis.png"/>
+</div>
+<div class="identity-copy">
+<strong>Anis Ghaieb</strong>
+<span>baniss2002@gmail.com</span>
+</div>
+</article>
+<article class="identity-card identity-card-course">
+<div class="identity-copy">
+<strong>Introduction au réseau et architecture logicielle</strong>
+</div>
+</article>
+<article class="identity-card identity-card-college">
+<div aria-label="Collège Universel" class="identity-media identity-media-logo">
+<img alt="Logo du Collège Universel" src="img/college.png"/>
+</div>
+<div class="identity-copy">
+<strong>Collège Universel</strong>
+<span>Campus Montréal</span>
+</div>
+</article>
+</section>
+</div>
+</header>
+<main class="document document-powershell">
+<header class="document-header document-header-hybrid"><section aria-label="Présentation de la leçon" class="hero-wrap hero-wrap-powershell hero-wrap-overlay">
+<div class="hero-image-box hero-image-box-overlay hero-image-box-triple">
+<div aria-label="Visuel principal de la leçon" class="hero-split-banner">
+<figure class="hero-split-item hero-split-side hero-split-left">
+<img alt="Icônes technologiques complémentaires à gauche" src="img/icones2.png"/>
+</figure>
+<figure class="hero-split-item hero-split-center">
+<img alt="Bannière centrale de la leçon sur la couche application et le diagnostic réseau" id="heroImage" src="img/bann-milieu.png"/>
+</figure>
+<figure class="hero-split-item hero-split-side hero-split-right">
+<img alt="Icônes technologiques complémentaires à droite" src="img/icones1.png"/>
+</figure>
+</div>
+</div>
+<section class="hero-title-panel">
+<h1 class="lesson-title-hybrid hero-title-overlay">Couche application et outils de diagnostic réseau</h1>
+</section>
+<section class="lesson-intro-box lesson-intro-box-fullwidth">
+<p class="lesson-subtitle-hybrid">Cette leçon présente le rôle de la couche application, les principaux protocoles utilisés par les services réseau, puis les outils de diagnostic associés aux messages ICMP, notamment ping et traceroute.</p>
+</section>
+</section><section aria-label="Vue d’ensemble de la leçon" class="document-overview" id="sommaire">
+<div class="overview-panel">
+<h2 class="overview-title">Table des matières</h2>
+<nav aria-label="Table des matières" class="toc-nav">
+<ul class="toc-list">
+<li class="toc-item toc-level-1"><a class="toc-link" href="#partie-1">Présentation de la couche application</a></li>
+<li class="toc-item toc-level-1"><a class="toc-link" href="#partie-2">Les protocoles de la couche application</a></li>
+<li class="toc-item toc-level-1"><a class="toc-link" href="#partie-3">Messages ICMP et diagnostic réseau</a></li>
+<li class="toc-item toc-level-1"><a class="toc-link" href="#partie-4">Tests à l’aide de la commande ping</a></li>
+<li class="toc-item toc-level-1"><a class="toc-link" href="#partie-5">Traceroute ou tracert : tester le chemin</a></li>
+<li class="toc-item toc-level-1"><a class="toc-link" href="#partie-6">À retenir et révision</a></li>
+<li class="toc-item toc-level-1"><a class="toc-link" href="#qcm-final">QCM final de validation</a></li>
+</ul>
+</nav>
+</div>
+<div class="overview-panel">
+<h2 class="overview-title">Objectifs de la leçon</h2>
+<ul class="goal-list">
+<li>Situer la couche application dans les modèles OSI et TCP/IP.</li>
+<li>Comprendre le rôle des protocoles HTTP, HTTPS, DNS, SMTP, IMAP, POP, DHCP, FTP et P2P.</li>
+<li>Expliquer l’utilité des messages ICMP dans le diagnostic réseau.</li>
+<li>Utiliser les commandes ping et traceroute pour valider une communication réseau.</li>
+<li>Lire un test réseau de façon progressive, du plus local au plus distant.</li>
+</ul>
+</div>
+</section></header>
+<section class="part" id="partie-1">
+<div class="part-header">
+<h2 class="part-title">Présentation de la couche application</h2>
+</div>
+<div class="part-body">
+<section class="section-block line-section">
+<h3 class="section-title">Le rôle de cette couche dans un réseau</h3>
+<div class="section-body">
+<p>La couche application correspond à la 7e couche du modèle OSI. C’est la couche la plus proche de l’utilisateur, car elle sert d’interface entre les logiciels utilisés au quotidien et les services du réseau.</p>
+<p>Concrètement, lorsqu’une personne ouvre un site web, envoie un courriel, télécharge un fichier ou demande la résolution d’un nom de domaine, elle utilise un service qui s’appuie sur un ou plusieurs protocoles liés à cette couche.</p>
+<p>Dans le modèle TCP/IP, plusieurs fonctions associées à la couche application du modèle OSI sont regroupées dans une couche applicative plus large. Cette comparaison aide à comprendre comment les mêmes échanges réseau peuvent être décrits avec deux modèles différents.</p>
+<figure class="lesson-figure figure-wide">
+<img alt="Comparaison entre le modèle OSI et le modèle TCP/IP" src="img-application-diagnostic-reseau/comparaison-osi-tcp-ip.png"/>
+<figcaption>Comparaison entre les couches du modèle OSI, celles du modèle TCP/IP et quelques protocoles applicatifs courants.</figcaption>
+</figure>
+<div class="callout final-callout spaced-block">
+<strong>À retenir :</strong> la couche application ne transporte pas elle-même le signal électrique ni le paquet d’un bout à l’autre du réseau. Elle définit surtout les règles que les applications utilisent pour demander un service ou échanger des données.
+            </div>
+</div>
+</section>
+</div>
+</section>
+<section class="part" id="partie-2">
+<div class="part-header">
+<h2 class="part-title">Les protocoles de la couche application</h2>
+</div>
+<div class="part-body">
+<section class="section-block line-section">
+<h3 class="section-title">Pourquoi les protocoles sont indispensables</h3>
+<div class="section-body">
+<p>Un protocole réseau est un ensemble de règles qui précise comment deux appareils communiquent. Grâce aux protocoles, des équipements différents peuvent parler le même langage, structurer les messages, corriger certaines erreurs et organiser les échanges.</p>
+<p>Les protocoles ont plusieurs objectifs : faciliter la communication, garantir l’interopérabilité, améliorer la fiabilité et soutenir de bonnes performances sur le réseau.</p>
+<div class="table-wrap spaced-block">
+<table>
+<thead>
+<tr>
+<th>Protocole</th>
+<th>Rôle principal</th>
+<th>Exemple d’usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTTP / HTTPS</td>
+<td>Accès aux pages web ; HTTPS ajoute le chiffrement.</td>
+<td>Consulter un site web.</td>
+</tr>
+<tr>
+<td>DNS</td>
+<td>Traduire un nom de domaine en adresse IP.</td>
+<td>Retrouver l’adresse d’un serveur à partir de son nom.</td>
+</tr>
+<tr>
+<td>SMTP / IMAP / POP</td>
+<td>Envoyer et récupérer des courriels.</td>
+<td>Utiliser une messagerie électronique.</td>
+</tr>
+<tr>
+<td>DHCP</td>
+<td>Attribuer automatiquement une configuration IP.</td>
+<td>Connecter un poste à un réseau local.</td>
+</tr>
+<tr>
+<td>FTP</td>
+<td>Transférer des fichiers entre un client et un serveur.</td>
+<td>Téléverser ou télécharger un fichier.</td>
+</tr>
+<tr>
+<td>P2P</td>
+<td>Permettre à plusieurs postes d’échanger sans serveur central unique.</td>
+<td>Partager des fichiers entre pairs.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section class="section-block line-section">
+<h3 class="section-title">Exemples de protocoles à connaître</h3>
+<div class="section-body">
+<section class="subsection-block">
+<h4 class="subsection-title">HTTP et HTTPS</h4>
+<div class="subsection-body">
+<p>HTTP est le protocole utilisé pour accéder aux sites web. Il fonctionne selon une logique client-serveur : le navigateur envoie une requête, puis le serveur répond avec la ressource demandée.</p>
+<p>HTTPS est la version sécurisée d’HTTP. Le contenu échangé est chiffré, ce qui protège mieux les données pendant leur transmission.</p>
+<p>Exemple simple : le navigateur demande une page, le serveur envoie la page, puis le navigateur l’affiche.</p>
+</div>
+</section>
+<section class="subsection-block">
+<h4 class="subsection-title">DNS</h4>
+<div class="subsection-body">
+<p>DNS signifie <em>Domain Name System</em>. Son rôle est de convertir un nom facile à lire par une personne en une adresse IP compréhensible par les machines.</p>
+<p>Exemple : au lieu de mémoriser une adresse IP, l’utilisateur écrit un nom de domaine dans son navigateur. Le serveur DNS trouve l’adresse correspondante et permet d’atteindre le bon serveur.</p>
+</div>
+</section>
+<section class="subsection-block">
+<h4 class="subsection-title">Protocoles de messagerie</h4>
+<div class="subsection-body">
+<p>SMTP sert à envoyer les courriels. IMAP permet de consulter les messages directement sur le serveur, tandis que POP sert plutôt à les télécharger pour une consultation locale.</p>
+<p>En pratique, un message est envoyé via SMTP, transmis entre serveurs, puis récupéré par le destinataire avec IMAP ou POP.</p>
+</div>
+</section>
+<section class="subsection-block">
+<h4 class="subsection-title">DHCP</h4>
+<div class="subsection-body">
+<p>DHCP attribue automatiquement une configuration IP à un appareil qui arrive sur le réseau. Cela évite de saisir manuellement une adresse IP sur chaque poste.</p>
+<p>Le principe est simple : le client demande une adresse, le serveur propose une valeur libre, puis le client accepte cette configuration.</p>
+</div>
+</section>
+<section class="subsection-block">
+<h4 class="subsection-title">FTP et applications P2P</h4>
+<div class="subsection-body">
+<p>FTP est utilisé pour transférer des fichiers entre un client et un serveur. Les applications P2P, elles, permettent à plusieurs appareils de partager directement des ressources, chaque poste pouvant jouer le rôle de client et de serveur.</p>
+</div>
+</section>
+</div>
+</section>
+</div>
+</section>
+<section class="part" id="partie-3">
+<div class="part-header">
+<h2 class="part-title">Messages ICMP et diagnostic réseau</h2>
+</div>
+<div class="part-body">
+<section class="section-block line-section">
+<h3 class="section-title">Pourquoi ICMP est utile pour le dépannage</h3>
+<div class="section-body">
+<p>Le protocole ICMP est utilisé pour le contrôle et le diagnostic du réseau. Il ne sert pas à transporter les données d’un utilisateur, mais à informer sur l’état de la communication.</p>
+<p>Il permet par exemple de savoir si une destination est joignable, si un paquet a expiré en chemin ou si une meilleure route peut être proposée.</p>
+<ul>
+<li><strong>Echo Request</strong> et <strong>Echo Reply</strong> : utilisés par la commande ping pour tester la connectivité.</li>
+<li><strong>Destination Unreachable</strong> : indique qu’une machine ou un réseau n’est pas accessible.</li>
+<li><strong>Time Exceeded</strong> : signale qu’un paquet a dépassé sa durée de vie, ce qui est exploité par traceroute.</li>
+<li><strong>Redirect</strong> : suggère qu’un autre chemin réseau serait plus approprié.</li>
+</ul>
+<p>Quand un étudiant apprend à dépanner un réseau, ICMP est souvent le premier outil pratique à comprendre, car il sert de base aux tests les plus simples.</p>
+<figure class="lesson-figure figure-medium">
+<img alt="Principe d’un ping entre deux hôtes situés sur deux réseaux différents" src="img-application-diagnostic-reseau/ping-h1-h2.png"/>
+<figcaption>Le ping utilise une requête d’écho et une réponse d’écho pour vérifier si une destination est joignable.</figcaption>
+</figure>
+</div>
+</section>
+</div>
+</section>
+<section class="part" id="partie-4">
+<div class="part-header">
+<h2 class="part-title">Tests à l’aide de la commande ping</h2>
+</div>
+<div class="part-body">
+<section class="section-block line-section">
+<h3 class="section-title">Ping : tester la connectivité</h3>
+<div class="section-body">
+<p>La commande ping envoie une demande d’écho à une autre machine et attend une réponse. Si une réponse revient, la communication fonctionne au moins jusqu’au niveau testé.</p>
+<p>Un ping réussi indique qu’un chemin de communication existe. Un échec peut signaler un problème d’adresse IP, de câblage, de configuration, de routage ou parfois un blocage de sécurité sur les messages ICMP.</p>
+</div>
+</section>
+<section class="section-block line-section">
+<h3 class="section-title">Ping du loopback</h3>
+<div class="section-body">
+<p>Le loopback correspond à l’adresse interne d’un appareil : <strong>127.0.0.1</strong> en IPv4 et <strong>::1</strong> en IPv6. Ce test ne sort pas réellement sur le réseau ; il vérifie d’abord si la pile IP locale fonctionne correctement.</p>
+<p>Si ce test échoue, le problème se situe sur la machine elle-même. S’il réussit, cela confirme que la configuration IP de base est active.</p>
+<section class="syntax-card">
+<h4>Commande utile</h4>
+<pre data-help-role="Cette commande envoie un ping vers 127.0.0.1 pour vérifier si la pile IP locale de la machine répond correctement, sans sortir sur le réseau." data-help-title="Test du loopback IPv4">ping 127.0.0.1</pre>
+</section>
+<figure class="lesson-figure figure-medium">
+<img alt="Lien entre un ping local et la vérification des paramètres IPv4 de la carte réseau" src="img-application-diagnostic-reseau/ping-ethernet-ipv4.png"/>
+<figcaption>Un ping local est souvent associé à une vérification rapide de la configuration de la carte réseau et du protocole IPv4.</figcaption>
+</figure>
+<div class="resultblock">
+<div class="pcframe">
+<div class="pcinner">
+<pre class="resultpre" data-help-role="Ce bloc rappelle ce qu’il faut conclure quand le ping local répond : la pile IP de base est active sur la machine." data-help-title="Lecture d’un test loopback">Test réussi
+- Réponse reçue de 127.0.0.1
+- Conclusion : la pile IP locale fonctionne</pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section-block line-section">
+<h3 class="section-title">Ping de la passerelle par défaut</h3>
+<div class="section-body">
+<p>La passerelle par défaut est généralement l’interface du routeur qui relie le réseau local au reste du réseau. Faire un ping vers cette adresse permet de vérifier que le poste communique correctement avec son routeur.</p>
+<p>Si le poste a l’adresse <strong>10.0.0.1</strong> avec le masque <strong>255.255.255.0</strong> et que la passerelle est <strong>10.0.0.254</strong>, un ping vers la passerelle valide le fonctionnement du réseau local et la cohérence de la configuration IPv4.</p>
+<section class="syntax-card">
+<h4>Commande utile</h4>
+<pre data-help-role="Cette commande vérifie que le poste atteint bien l’interface du routeur local. Elle sert à confirmer que la configuration IPv4 et la communication sur le réseau local sont cohérentes." data-help-title="Test de la passerelle par défaut">ping 10.0.0.254</pre>
+</section>
+<figure class="lesson-figure figure-wide">
+<img alt="Configuration IPv4 d’un poste et sens d’une requête d’écho vers la passerelle par défaut" src="img-application-diagnostic-reseau/configuration-ip-echo.png"/>
+<figcaption>La cohérence entre l’adresse IP, le masque, la passerelle et le DNS est indispensable avant d’interpréter un résultat de ping.</figcaption>
+</figure>
+</div>
+</section>
+<section class="section-block line-section">
+<h3 class="section-title">Ping sur un interréseau</h3>
+<div class="section-body">
+<p>Le ping peut aussi être utilisé entre deux réseaux différents. Dans ce cas, la réussite du test confirme que les routeurs et les routes intermédiaires permettent bien le passage des messages entre les deux sous-réseaux.</p>
+<p>Si le test échoue, il faut vérifier la table de routage, les adresses des interfaces, la passerelle du poste source et les éventuels filtres de sécurité appliqués aux messages ICMP.</p>
+<section class="syntax-card">
+<h4>Commande utile</h4>
+<pre data-help-role="Cette commande tente de joindre un hôte situé dans un autre sous-réseau. Elle confirme que le routage intermédiaire permet bien le passage des paquets ICMP." data-help-title="Test entre deux réseaux">ping 10.0.1.1</pre>
+</section>
+<figure class="lesson-figure figure-wide">
+<img alt="Ping entre deux réseaux avec rappel simplifié de la table de routage" src="img-application-diagnostic-reseau/table-routage-echo-interreseau.png"/>
+<figcaption>Quand le ping traverse plusieurs réseaux, la table de routage et les interfaces des routeurs deviennent essentielles.</figcaption>
+</figure>
+<div class="callout lesson-callout spaced-block">
+<strong>Conseil pratique :</strong> quand un ping ne fonctionne pas, il est utile d’avancer étape par étape : d’abord le loopback, ensuite l’adresse du poste, puis la passerelle par défaut, puis une machine d’un autre réseau.
+            </div>
+</div>
+</section>
+</div>
+</section>
+<section class="part" id="partie-5">
+<div class="part-header">
+<h2 class="part-title">Traceroute ou tracert : tester le chemin</h2>
+</div>
+<div class="part-body">
+<section class="section-block line-section">
+<h3 class="section-title">Lire un trajet réseau étape par étape</h3>
+<div class="section-body">
+<p>La commande <strong>traceroute</strong> sous Linux ou <strong>tracert</strong> sous Windows montre le chemin suivi par les données entre une source et une destination. Elle affiche les routeurs rencontrés un par un.</p>
+<p>Cette commande utilise un compteur appelé <strong>TTL</strong> (<em>Time To Live</em>). Chaque fois qu’un paquet traverse un routeur, le TTL diminue. Lorsqu’il atteint zéro, le routeur renvoie un message ICMP de type <strong>Time Exceeded</strong>. C’est ce mécanisme qui permet de révéler les différents sauts du trajet.</p>
+<p>Traceroute est utile pour localiser une panne ou repérer le point où un paquet cesse d’avancer. Il aide donc à comprendre si le problème se situe près de la source, au milieu du trajet ou près de la destination.</p>
+<div class="figure-duo spaced-block">
+<section class="syntax-card">
+<h4>Sous Windows</h4>
+<pre data-help-role="Cette commande affiche, sous Windows, les différents sauts entre la machine source et l’adresse de destination afin d’identifier le chemin réellement emprunté." data-help-title="Commande tracert sous Windows">tracert 192.168.1.2</pre>
+</section>
+<section class="syntax-card">
+<h4>Sous Linux</h4>
+<pre data-help-role="Cette commande réalise le même diagnostic sous Linux : elle révèle les routeurs traversés grâce à l’expiration progressive du TTL." data-help-title="Commande traceroute sous Linux">traceroute 192.168.1.2</pre>
+</section>
+</div>
+<figure class="lesson-figure figure-wide">
+<img alt="Principe d’un traceroute entre deux réseaux avec plusieurs routeurs intermédiaires" src="img-application-diagnostic-reseau/traceroute-deux-reseaux.png"/>
+<figcaption>Traceroute ne mesure pas seulement si la destination répond : il montre aussi le chemin et les sauts intermédiaires.</figcaption>
+</figure>
+<div class="resultblock">
+<div class="pcframe">
+<div class="pcinner">
+<pre class="resultpre" data-help-role="Ce bloc résume ce qu’il faut observer dans un traceroute : chaque saut représente généralement un routeur intermédiaire jusqu’à la destination." data-help-title="Lecture simple d’un traceroute">Lecture attendue
+- Saut 1 : réseau local ou passerelle
+- Sauts suivants : routeurs intermédiaires
+- Dernier saut : destination atteinte ou point de blocage</pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</section>
+<section class="part" id="partie-6">
+<div class="part-header">
+<h2 class="part-title">À retenir et révision</h2>
+</div>
+<div class="part-body">
+<section class="section-block line-section">
+<h3 class="section-title">Mini synthèse</h3>
+<div class="section-body">
+<ul class="summary-list">
+<li>La couche application regroupe les protocoles utilisés directement par les services visibles pour l’utilisateur.</li>
+<li>HTTP/HTTPS, DNS, SMTP, IMAP, POP, DHCP, FTP et P2P ont chacun un rôle précis dans la communication réseau.</li>
+<li>ICMP sert surtout au contrôle et au diagnostic, notamment avec les messages d’écho.</li>
+<li>Ping vérifie l’accessibilité d’un équipement ou d’une étape du réseau.</li>
+<li>Traceroute révèle les routeurs traversés et aide à situer une panne.</li>
+</ul>
+<div class="callout final-callout spaced-block">
+<strong>Idée directrice :</strong> un bon diagnostic réseau commence par le plus local, puis progresse vers le plus distant, sans sauter d’étape.
+            </div>
+</div>
+</section>
+<section class="section-block line-section">
+<h3 class="section-title">Petit exercice de révision</h3>
+<div class="section-body">
+<ul class="exercise-list">
+<li>Explique le rôle du DNS en une phrase.</li>
+<li>Quelle différence principale existe entre HTTP et HTTPS ?</li>
+<li>Pourquoi commence-t-on souvent le diagnostic réseau par un ping vers 127.0.0.1 ?</li>
+<li>À quoi sert la passerelle par défaut ?</li>
+<li>Quel est le rôle du TTL dans traceroute ?</li>
+</ul>
+</div>
+</section>
+</div>
+</section>
+<section class="card qcm-card" id="qcm-final">
+<h2>QCM final de validation</h2>
+<p class="qcm-access-note">Utilise la touche Tab pour parcourir les choix puis valide avec le bouton final.</p>
+<p class="qcm-intro">Réponds aux 10 questions ci-dessous, puis valide l’ensemble avec le bouton final. La réussite est obtenue à partir de <strong>6 bonnes réponses sur 10</strong>.</p>
+<div id="qcmFinal">
+<div class="qcm-form qcm-block">
+<article class="qcm-question" data-correct="c" data-hint="Relis la première partie sur la place de la couche application dans le modèle OSI.">
+<h3 class="qcm-question-title">Question 1 — À quelle couche du modèle OSI correspond la couche application ?</h3>
+<div class="qcm-options">
+<label class="qcm-option" for="q1-a"><input id="q1-a" name="q1" type="radio" value="a"/><span>À la 1re couche.</span></label>
+<label class="qcm-option" for="q1-b"><input id="q1-b" name="q1" type="radio" value="b"/><span>À la 4e couche.</span></label>
+<label class="qcm-option" for="q1-c"><input id="q1-c" name="q1" type="radio" value="c"/><span>À la 7e couche.</span></label>
+<label class="qcm-option" for="q1-d"><input id="q1-d" name="q1" type="radio" value="d"/><span>À la couche physique uniquement.</span></label>
+</div>
+</article>
+<article class="qcm-question" data-correct="b" data-hint="Revois le rôle général des protocoles de la couche application.">
+<h3 class="qcm-question-title">Question 2 — Quel est le rôle principal d’un protocole réseau dans cette leçon ?</h3>
+<div class="qcm-options">
+<label class="qcm-option" for="q2-a"><input id="q2-a" name="q2" type="radio" value="a"/><span>Décorer l’interface d’un logiciel.</span></label>
+<label class="qcm-option" for="q2-b"><input id="q2-b" name="q2" type="radio" value="b"/><span>Définir des règles de communication entre appareils.</span></label>
+<label class="qcm-option" for="q2-c"><input id="q2-c" name="q2" type="radio" value="c"/><span>Remplacer complètement les adresses IP.</span></label>
+<label class="qcm-option" for="q2-d"><input id="q2-d" name="q2" type="radio" value="d"/><span>Créer automatiquement une topologie réseau.</span></label>
+</div>
+</article>
+<article class="qcm-question" data-correct="d" data-hint="Relis le tableau des protocoles et la sous-partie consacrée au DNS.">
+<h3 class="qcm-question-title">Question 3 — À quoi sert principalement le DNS ?</h3>
+<div class="qcm-options">
+<label class="qcm-option" for="q3-a"><input id="q3-a" name="q3" type="radio" value="a"/><span>À envoyer des courriels.</span></label>
+<label class="qcm-option" for="q3-b"><input id="q3-b" name="q3" type="radio" value="b"/><span>À chiffrer toutes les pages web.</span></label>
+<label class="qcm-option" for="q3-c"><input id="q3-c" name="q3" type="radio" value="c"/><span>À attribuer une adresse IP locale automatiquement.</span></label>
+<label class="qcm-option" for="q3-d"><input id="q3-d" name="q3" type="radio" value="d"/><span>À traduire un nom de domaine en adresse IP.</span></label>
+</div>
+</article>
+<article class="qcm-question" data-correct="a" data-hint="Revois la différence entre HTTP et HTTPS.">
+<h3 class="qcm-question-title">Question 4 — Quelle différence principale la leçon souligne-t-elle entre HTTP et HTTPS ?</h3>
+<div class="qcm-options">
+<label class="qcm-option" for="q4-a"><input id="q4-a" name="q4" type="radio" value="a"/><span>HTTPS ajoute le chiffrement aux échanges web.</span></label>
+<label class="qcm-option" for="q4-b"><input id="q4-b" name="q4" type="radio" value="b"/><span>HTTP sert aux courriels et HTTPS au web.</span></label>
+<label class="qcm-option" for="q4-c"><input id="q4-c" name="q4" type="radio" value="c"/><span>HTTP ne fonctionne que sur un réseau local.</span></label>
+<label class="qcm-option" for="q4-d"><input id="q4-d" name="q4" type="radio" value="d"/><span>HTTPS remplace complètement l’adressage IP.</span></label>
+</div>
+</article>
+<article class="qcm-question" data-correct="c" data-hint="Relis la partie sur ICMP et les messages utilisés par ping.">
+<h3 class="qcm-question-title">Question 5 — Quels messages ICMP sont utilisés par la commande ping ?</h3>
+<div class="qcm-options">
+<label class="qcm-option" for="q5-a"><input id="q5-a" name="q5" type="radio" value="a"/><span>Redirect et DHCP Offer.</span></label>
+<label class="qcm-option" for="q5-b"><input id="q5-b" name="q5" type="radio" value="b"/><span>SMTP et POP.</span></label>
+<label class="qcm-option" for="q5-c"><input id="q5-c" name="q5" type="radio" value="c"/><span>Echo Request et Echo Reply.</span></label>
+<label class="qcm-option" for="q5-d"><input id="q5-d" name="q5" type="radio" value="d"/><span>Only Broadcast et Time Sync.</span></label>
+</div>
+</article>
+<article class="qcm-question" data-correct="b" data-hint="Relis l’explication du loopback dans la partie consacrée au ping.">
+<h3 class="qcm-question-title">Question 6 — Pourquoi teste-t-on souvent 127.0.0.1 au début d’un diagnostic ?</h3>
+<div class="qcm-options">
+<label class="qcm-option" for="q6-a"><input id="q6-a" name="q6" type="radio" value="a"/><span>Pour vérifier si le DNS du campus répond.</span></label>
+<label class="qcm-option" for="q6-b"><input id="q6-b" name="q6" type="radio" value="b"/><span>Pour vérifier localement la pile IP de la machine.</span></label>
+<label class="qcm-option" for="q6-c"><input id="q6-c" name="q6" type="radio" value="c"/><span>Pour joindre directement un serveur distant.</span></label>
+<label class="qcm-option" for="q6-d"><input id="q6-d" name="q6" type="radio" value="d"/><span>Pour tester le chiffrement HTTPS.</span></label>
+</div>
+</article>
+<article class="qcm-question" data-correct="a" data-hint="Revois la partie sur la passerelle par défaut.">
+<h3 class="qcm-question-title">Question 7 — Que permet de valider un ping vers la passerelle par défaut ?</h3>
+<div class="qcm-options">
+<label class="qcm-option" for="q7-a"><input id="q7-a" name="q7" type="radio" value="a"/><span>La communication correcte entre le poste et son routeur local.</span></label>
+<label class="qcm-option" for="q7-b"><input id="q7-b" name="q7" type="radio" value="b"/><span>L’impression réseau sur n’importe quel autre sous-réseau.</span></label>
+<label class="qcm-option" for="q7-c"><input id="q7-c" name="q7" type="radio" value="c"/><span>Le chiffrement des données applicatives.</span></label>
+<label class="qcm-option" for="q7-d"><input id="q7-d" name="q7" type="radio" value="d"/><span>La configuration complète du serveur DNS secondaire.</span></label>
+</div>
+</article>
+<article class="qcm-question" data-correct="d" data-hint="Relis la partie sur le ping entre deux réseaux et la figure de routage.">
+<h3 class="qcm-question-title">Question 8 — Si un ping interréseau échoue, quel élément faut-il aussi vérifier ?</h3>
+<div class="qcm-options">
+<label class="qcm-option" for="q8-a"><input id="q8-a" name="q8" type="radio" value="a"/><span>Uniquement la couleur des interfaces réseau.</span></label>
+<label class="qcm-option" for="q8-b"><input id="q8-b" name="q8" type="radio" value="b"/><span>Le nom du navigateur web installé.</span></label>
+<label class="qcm-option" for="q8-c"><input id="q8-c" name="q8" type="radio" value="c"/><span>La version du protocole FTP.</span></label>
+<label class="qcm-option" for="q8-d"><input id="q8-d" name="q8" type="radio" value="d"/><span>La table de routage, les interfaces et la passerelle du poste source.</span></label>
+</div>
+</article>
+<article class="qcm-question" data-correct="b" data-hint="Revois la définition du TTL dans la partie sur traceroute.">
+<h3 class="qcm-question-title">Question 9 — Quel est le rôle du TTL dans traceroute ?</h3>
+<div class="qcm-options">
+<label class="qcm-option" for="q9-a"><input id="q9-a" name="q9" type="radio" value="a"/><span>Il indique la température du routeur intermédiaire.</span></label>
+<label class="qcm-option" for="q9-b"><input id="q9-b" name="q9" type="radio" value="b"/><span>Il diminue à chaque routeur et permet de révéler les sauts du trajet.</span></label>
+<label class="qcm-option" for="q9-c"><input id="q9-c" name="q9" type="radio" value="c"/><span>Il sert à choisir entre HTTP et HTTPS.</span></label>
+<label class="qcm-option" for="q9-d"><input id="q9-d" name="q9" type="radio" value="d"/><span>Il remplace l’adresse IP de la destination.</span></label>
+</div>
+</article>
+<article class="qcm-question" data-correct="a" data-hint="Relis la synthèse finale sur la méthode de diagnostic progressive.">
+<h3 class="qcm-question-title">Question 10 — Quelle démarche générale la leçon recommande-t-elle pour diagnostiquer un problème réseau ?</h3>
+<div class="qcm-options">
+<label class="qcm-option" for="q10-a"><input id="q10-a" name="q10" type="radio" value="a"/><span>Commencer par le plus local puis progresser vers le plus distant.</span></label>
+<label class="qcm-option" for="q10-b"><input id="q10-b" name="q10" type="radio" value="b"/><span>Tester directement le dernier routeur sans vérifier le reste.</span></label>
+<label class="qcm-option" for="q10-c"><input id="q10-c" name="q10" type="radio" value="c"/><span>Ignorer la configuration IPv4 et tester seulement les applications.</span></label>
+<label class="qcm-option" for="q10-d"><input id="q10-d" name="q10" type="radio" value="d"/><span>Remplacer le ping par FTP dans tous les cas.</span></label>
+</div>
+</article>
+</div>
+<div class="qcm-actions">
+<button class="qcm-submit" type="button">Valider le QCM</button>
+</div>
+</div>
+</section>
+<div aria-hidden="true" class="qcm-overlay" id="qcmOverlay">
+<div class="qcm-modal failure">
+<p class="qcm-modal-label">Validation</p>
+<h3 class="qcm-modal-title">Résultat du QCM</h3>
+<p class="qcm-modal-text"></p>
+<div class="qcm-modal-hints" hidden="">
+<p class="qcm-modal-hints-title">Pistes de reprise</p>
+<ul class="qcm-hints"></ul>
+</div>
+<div class="qcm-modal-actions">
+<button class="qcm-retry" type="button">Reprendre</button>
+<button class="qcm-close" type="button">Fermer</button>
+</div>
+</div>
+</div>
+<footer class="course-footer">
+<div class="course-footer-left">Auteur : © <a class="footer-author-link" href="droits.html">Anis Ghaieb</a> — Tous droits réservés</div>
+<div class="course-footer-right">2026</div>
+</footer>
+</main>
+<script src="assets/script.js"></script>
+</body>
+</html>
